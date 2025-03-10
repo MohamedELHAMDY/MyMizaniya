@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Casablanca-Settat"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-7.75, 33.53], [-7.67, 33.60], [-7.58, 33.57], [-7.62, 33.50], [-7.75, 33.53]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rabat-Salé-Kénitra"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-6.83, 34.02], [-6.75, 34.08], [-6.67, 34.05], [-6.71, 33.98], [-6.83, 34.02]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tanger-Tétouan-Al Hoceima"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-5.83, 35.77], [-5.75, 35.83], [-5.67, 35.80], [-5.71, 35.73], [-5.83, 35.77]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fès-Meknès"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-5.00, 34.03], [-4.92, 34.10], [-4.83, 34.07], [-4.88, 34.00], [-5.00, 34.03]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Marrakech-Safi"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-8.00, 31.63], [-7.92, 31.70], [-7.83, 31.67], [-7.88, 31.60], [-8.00, 31.63]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Souss-Massa"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-9.53, 30.42], [-9.45, 30.48], [-9.37, 30.45], [-9.41, 30.38], [-9.53, 30.42]]]
+      }
+    }
+  ]
+}

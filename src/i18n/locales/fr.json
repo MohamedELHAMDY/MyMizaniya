@@ -1,0 +1,41 @@
+{
+  "header": {
+    "title": "Mizaniyatona",
+    "subtitle": "Plateforme de transparence budgétaire du Maroc",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "participation": "Participation",
+      "education": "Apprentissage",
+      "analysis": "Analyses"
+    }
+  },
+  "features": {
+    "visualization": {
+      "title": "Visualisation Interactive",
+      "description": "Explorez les données budgétaires régionales du Maroc à travers des graphiques dynamiques"
+    },
+    "ai": {
+      "title": "Assistant IA",
+      "description": "Posez vos questions sur le budget et obtenez des réponses instantanées"
+    },
+    "participation": {
+      "title": "Participation Citoyenne",
+      "description": "Exprimez vos priorités et participez aux discussions budgétaires"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de Bord Budgétaire",
+    "budget": "Budget Total",
+    "investment": "Investissement",
+    "debt": "Dette Publique"
+  },
+  "chatbot": {
+    "welcome": "Bonjour ! Je suis votre assistant budgétaire. Comment puis-je vous aider ?",
+    "placeholder": "Posez votre question...",
+    "suggestions": [
+      "Quel est le budget total ?",
+      "Comment est réparti le budget par région ?",
+      "Quels sont les principaux investissements ?"
+    ]
+  }
+}
