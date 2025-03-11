@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { useTranslation } from 'react-i18next';
+import { Github, Google } from 'lucide-react';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -11,7 +13,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { signIn, signUp } = useAuthStore();
+  const { signIn, signUp, signInWithGoogle, signInWithGithub, loading } = useAuthStore();
+  const { t } = useTranslation();
 
   if (!isOpen) return null;
 
@@ -25,7 +28,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         await signUp(email, password);
       }
       onClose();
-    } catch (err) {
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const handleSocialSignIn = async (provider: 'google' | 'github') => {
+    setError('');
+    try {
+      if (provider === 'google') {
+        await signInWithGoogle();
+      } else {
+        await signInWithGithub();
+      }
+      onClose();
+    } catch (err: any) {
       setError(err.message);
     }
   };
@@ -33,19 +50,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6">
-          {isLogin ? 'Connexion' : 'Inscription'}
-        </h2>
+        <h2 className="text-2xl font-bold mb-6">{isLogin ? t('Sign In') : t('Sign Up')}</h2>
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {error}
           </div>
         )}
+        {loading && <p>{t('Loading...')}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-gray-700">{t('Email')}</label>
             <input
               type="email"
               value={email}
@@ -55,9 +69,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Mot de passe
-            </label>
+            <label className="block text-sm font-medium text-gray-700">{t('Password')}</label>
             <input
               type="password"
               value={password}
@@ -70,21 +82,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             type="submit"
             className="w-full bg-morocco-green text-white py-2 px-4 rounded-md hover:bg-morocco-green/90 transition-colors"
           >
-            {isLogin ? 'Se connecter' : "S'inscrire"}
+            {isLogin ? t('Sign In') : t('Sign Up')}
           </button>
         </form>
+        <div className="flex justify-center mt-4">
+          <button onClick={() => handleSocialSignIn('google')} className="mx-2">
+            <Google />
+          </button>
+          <button onClick={() => handleSocialSignIn('github')} className="mx-2">
+            <Github />
+          </button>
+        </div>
         <button
           onClick={() => setIsLogin(!isLogin)}
           className="mt-4 text-sm text-gray-600 hover:text-morocco-green"
         >
-          {isLogin
-            ? "Pas encore de compte ? S'inscrire"
-            : 'Déjà un compte ? Se connecter'}
+          {isLogin ? t("Don't have an account? Sign Up") : t('Already have an account? Sign In')}
         </button>
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-        >
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
           ✕
         </button>
       </div>

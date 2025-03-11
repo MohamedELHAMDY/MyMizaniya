@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, Users, BrainCircuit, UserCircle } from 'lucide-react';
+import { BarChart3, Users, BrainCircuit, LogOut } from 'lucide-react';
 import DashboardChart from './components/DashboardChart';
 import NewsSection from './components/NewsSection';
 import ParticipationSection from './components/ParticipationSection';
@@ -9,12 +9,15 @@ import ForumSection from './components/ForumSection';
 import { AuthModal } from './components/AuthModal';
 import { useAuthStore } from './stores/authStore';
 import { supabase } from './lib/supabase';
-import FeatureCard from './components/FeatureCard'; // Import the FeatureCard component
+import FeatureCard from './components/FeatureCard';
+import LanguageSelector from './components/LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 function App() {
   const [language, setLanguage] = useState('fr');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { user, setUser, signOut } = useAuthStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -30,52 +33,59 @@ function App() {
         subscription.unsubscribe();
       }
     };
-  }, []);
+  }, [setUser]);
 
   return (
     <div className="min-h-screen bg-gray-50" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      {/* Header */}
       <header className="bg-gradient-to-r from-morocco-green to-morocco-red text-white">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Mizaniyatona</h1>
-            <nav className="hidden md:flex space-x-6">
-              <a href="#dashboard" className="hover:text-emerald-200">Tableau de bord</a>
-              <a href="#forum" className="hover:text-emerald-200">Forum</a>
-              <a href="#learning" className="hover:text-emerald-200">Apprentissage</a>
-              <a href="#participation" className="hover:text-emerald-200">Participation</a>
+            <h1 className="text-3xl font-bold">{t('Mizaniyatona')}</h1>
+            <nav className="hidden md:flex space-x-6 items-center">
+              <LanguageSelector setLanguage={setLanguage} language={language} />
+              {user ? (
+                <button onClick={signOut} className="flex items-center hover:text-emerald-200">
+                  <LogOut className="mr-1" />
+                  {t('Sign Out')}
+                </button>
+              ) : (
+                <button onClick={() => setIsAuthModalOpen(true)} className="hover:text-emerald-200">
+                  {t('Sign In / Sign Up')}
+                </button>
+              )}
+              <a href="#dashboard" className="hover:text-emerald-200">{t('Dashboard')}</a>
+              <a href="#forum" className="hover:text-emerald-200">{t('Forum')}</a>
+              <a href="#learning" className="hover:text-emerald-200">{t('Learning')}</a>
+              <a href="#participation" className="hover:text-emerald-200">{t('Participation')}</a>
             </nav>
           </div>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          <FeatureCard 
+          <FeatureCard
             icon={<BarChart3 className="w-8 h-8 text-morocco-green" />}
-            title="Visualisation Interactive"
-            description="Explorez les données budgétaires régionales du Maroc à travers des graphiques dynamiques"
+            title={t('Interactive Visualization')}
+            description={t('Explore regional budget data through dynamic graphs')}
           />
-          <FeatureCard 
+          <FeatureCard
             icon={<BrainCircuit className="w-8 h-8 text-morocco-red" />}
-            title="Assistant IA"
-            description="Posez vos questions sur le budget et obtenez des réponses instantanées"
+            title={t('AI Assistant')}
+            description={t('Ask questions about the budget and get instant answers')}
           />
-          <FeatureCard 
+          <FeatureCard
             icon={<Users className="w-8 h-8 text-morocco-green" />}
-            title="Participation Citoyenne"
-            description="Exprimez vos priorités et participez aux discussions budgétaires"
+            title={t('Citizen Participation')}
+            description={t('Express your priorities and participate in budget discussions')}
           />
         </div>
 
-        {/* Dashboard Section */}
         <section id="dashboard" className="mb-16 border-2 border-blue-500 p-4">
-          <h2 className="text-2xl font-bold mb-6">Tableau de Bord Budgétaire</h2>
+          <h2 className="text-2xl font-bold mb-6">{t('Budget Dashboard')}</h2>
           <DashboardChart />
         </section>
 
-        {/* Forum, Learning, and Other Sections */}
         <ForumSection />
         <LearningSection />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
@@ -83,7 +93,6 @@ function App() {
           <ParticipationSection />
         </div>
 
-        {/* Chatbot Section */}
         <ChatbotSection />
       </main>
 
