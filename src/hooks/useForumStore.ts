@@ -46,13 +46,13 @@ const useForumStore = create<ForumState>((set, get) => ({
         .from('forum_posts')
         .select(`
           *,
-          author:user_id(email),
+          author:users(email),
           replies_count:forum_replies(count)
         `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      set({ posts: data || [], loading: false });
+      set({ posts: data || [], loading: false, error: null });
     } catch (error) {
       set({ error: error.message, loading: false });
     }
@@ -67,7 +67,7 @@ const useForumStore = create<ForumState>((set, get) => ({
         .single();
 
       if (error) throw error;
-      set((state) => ({ posts: [data, ...state.posts] }));
+      set((state) => ({ posts: [data, ...state.posts], error: null }));
     } catch (error) {
       set({ error: error.message });
     }
@@ -84,7 +84,8 @@ const useForumStore = create<ForumState>((set, get) => ({
 
       if (error) throw error;
       set((state) => ({
-        posts: state.posts.map((post) => (post.id === id ? { ...post, ...data } : post))
+        posts: state.posts.map((post) => (post.id === id ? { ...post, ...data } : post)),
+        error: null
       }));
     } catch (error) {
       set({ error: error.message });
@@ -100,7 +101,8 @@ const useForumStore = create<ForumState>((set, get) => ({
 
       if (error) throw error;
       set((state) => ({
-        posts: state.posts.filter((post) => post.id !== id)
+        posts: state.posts.filter((post) => post.id !== id),
+        error: null
       }));
     } catch (error) {
       set({ error: error.message });

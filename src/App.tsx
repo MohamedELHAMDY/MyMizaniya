@@ -9,7 +9,7 @@ import ForumSection from './components/ForumSection';
 import { AuthModal } from './components/AuthModal';
 import { useAuthStore } from './stores/authStore';
 import { supabase } from './lib/supabase';
-import FeatureCard from './components/FeatureCard'; // Import the FeatureCard component
+import FeatureCard from './components/FeatureCard';
 
 function App() {
   const [language, setLanguage] = useState('fr');
@@ -26,7 +26,7 @@ function App() {
     });
 
     return () => subscription.unsubscribe();
-  },);
+  }, [setUser]); // Add setUser to dependency array
 
   return (
     <div className="min-h-screen bg-gray-50" dir={language === 'ar' ? 'rtl' : 'ltr'}>
